@@ -20,20 +20,49 @@
       USP Student Well-Being Study
     </a>
 
-    <button
-      class="support-link"
-      id="supportButton"
-      type="button"
-      aria-controls="supportPanel"
-      aria-expanded="false"
-    >
-      Need support?
-    </button>
+    <div class="topbar-actions">
+      <label class="language-control" for="languageSelect">
+        <span>Language</span>
+        <select id="languageSelect" aria-describedby="languageStatus">
+          <option value="en" selected>English</option>
+          <option value="fj" disabled>iTaukei — coming soon</option>
+          <option value="hif" disabled>Fiji Hindi — coming soon</option>
+        </select>
+      </label>
+
+      <button
+        class="support-link"
+        id="supportButton"
+        type="button"
+        aria-controls="supportPanel"
+        aria-expanded="false"
+      >
+        Need support?
+      </button>
+    </div>
   </header>
 
   <main class="page-shell">
     <!-- Welcome and consent -->
     <section class="hero" id="welcomeSection">
+      <div class="language-intro" aria-labelledby="languageHeading">
+        <div>
+          <strong id="languageHeading">Choose your website language</strong>
+          <p id="languageStatus">
+            English is available now. Reviewed iTaukei and Fiji Hindi
+            translations will be added later.
+          </p>
+        </div>
+        <label for="homeLanguageSelect">
+          <span class="visually-hidden">Website language</span>
+          <select id="homeLanguageSelect">
+            <option value="en" selected>English</option>
+            <option value="fj" disabled>iTaukei — coming soon</option>
+            <option value="hif" disabled>Fiji Hindi — coming soon</option>
+          </select>
+        </label>
+      </div>
+
       <div class="eyebrow">SC356 Research Project</div>
 
       <h1>Academic Stress and Mental Well-Being Questionnaire</h1>
