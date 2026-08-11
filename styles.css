@@ -593,7 +593,7 @@ body {
     linear-gradient(rgba(255, 255, 255, 0.48), rgba(255, 255, 255, 0.66)),
     url("assets/pacific-island-background.png");
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
