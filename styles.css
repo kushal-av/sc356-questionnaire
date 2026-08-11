@@ -585,3 +585,30 @@ footer {
     margin-top: 3px;
   }
 }
+
+/* Approved Pacific-island background */
+body {
+  background-color: #f7fcfc;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.48), rgba(255, 255, 255, 0.66)),
+    url("assets/pacific-island-background.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.hero,
+.survey-card,
+.thank-you {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+@media (max-width: 680px) {
+  body {
+    background-position: center top;
+    background-attachment: scroll;
+  }
+}
