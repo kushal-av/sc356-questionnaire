@@ -65,11 +65,11 @@ document.querySelectorAll(".scale").forEach((element) => {
     element,
     element.parentElement.dataset.requiredRadio,
     [
-      "Strongly disagree",
-      "Disagree",
-      "Neutral",
-      "Agree",
-      "Strongly agree"
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
     ]
   );
 });
@@ -79,11 +79,11 @@ document.querySelectorAll(".frequency").forEach((element) => {
     element,
     element.parentElement.dataset.requiredRadio,
     [
-      "Never",
-      "Rarely",
-      "Sometimes",
-      "Often",
-      "Always"
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
     ]
   );
 });
@@ -100,10 +100,11 @@ function showStep(step) {
     item.classList.toggle("hidden", !isCurrentStep);
   });
 
-  const percent = step * 25;
+  const totalSteps = steps.length;
+  const percent = Math.round((step / totalSteps) * 100);
 
   document.querySelector("#stepText").textContent =
-    `Step ${step} of 4`;
+    `Step ${step} of ${totalSteps}`;
 
   document.querySelector("#percentText").textContent =
     `${percent}%`;
@@ -122,12 +123,12 @@ function showStep(step) {
   }
 
   backButton.classList.toggle("hidden", step === 1);
-  nextButton.classList.toggle("hidden", step === 4);
-  submitButton.classList.toggle("hidden", step !== 4);
+  nextButton.classList.toggle("hidden", step === totalSteps);
+  submitButton.classList.toggle("hidden", step !== totalSteps);
 
   formError.textContent = "";
 
-  if (step === 4) {
+  if (step === totalSteps) {
     renderSummary();
   }
 
@@ -193,18 +194,26 @@ function validateCurrentStep() {
 // --------------------------------------------------
 
 const summaryLabels = {
-  ageGroup: "Age group",
-  yearOfStudy: "Year of study",
-  fieldOfStudy: "Field of study",
-  courseCount: "Courses",
-  sleepHours: "Sleep",
-  workload: "Workload pressure",
-  deadlines: "Deadline pressure",
-  exams: "Exam pressure",
-  overwhelmed: "Feeling overwhelmed",
-  concentrate: "Concentration",
-  positive: "Positive mood",
-  rested: "Feeling rested"
+  age_group: "Age group",
+  gender: "Gender",
+  year_of_study: "Year of study",
+  faculty: "Faculty",
+  study_mode: "Study mode",
+  weekly_study_hours: "Weekly study hours",
+  sleep_hours_per_night: "Sleep per night",
+  stress_workload: "Workload stress",
+  stress_assignments: "Assignment stress",
+  stress_tests: "Test and examination stress",
+  stress_deadlines: "Deadline stress",
+  stress_time_management: "Time-management stress",
+  stress_financial: "Financial stress",
+  wellbeing_cheerful: "Feeling cheerful",
+  wellbeing_calm: "Feeling calm",
+  wellbeing_active: "Feeling active",
+  wellbeing_rested: "Feeling rested",
+  wellbeing_interested: "Interest in daily life",
+  sought_support: "Sought support",
+  preferred_is_support: "Preferred IS support"
 };
 
 function renderSummary() {
@@ -291,7 +300,7 @@ consentCheckbox.addEventListener("change", () => {
 // --------------------------------------------------
 
 nextButton.addEventListener("click", () => {
-  if (validateCurrentStep() && currentStep < 4) {
+  if (validateCurrentStep() && currentStep < steps.length) {
     showStep(currentStep + 1);
   }
 });
@@ -331,6 +340,57 @@ function formToObject(questionnaireForm) {
 }
 
 // --------------------------------------------------
+// Calculate analysis-ready stress and wellbeing scores
+// --------------------------------------------------
+
+const stressVariables = [
+  "stress_workload",
+  "stress_assignments",
+  "stress_tests",
+  "stress_deadlines",
+  "stress_time_management",
+  "stress_financial"
+];
+
+const wellbeingVariables = [
+  "wellbeing_cheerful",
+  "wellbeing_calm",
+  "wellbeing_active",
+  "wellbeing_rested",
+  "wellbeing_interested"
+];
+
+function calculateScaleScore(answers, variableNames) {
+  const values = variableNames.map((name) =>
+    Number(answers[name])
+  );
+
+  const allValuesValid = values.every((value) =>
+    Number.isInteger(value) && value >= 1 && value <= 5
+  );
+
+  if (!allValuesValid) {
+    throw new Error("A required 1–5 scale response is missing or invalid.");
+  }
+
+  return values.reduce((total, value) => total + value, 0);
+}
+
+function addCalculatedFields(answers) {
+  answers.stress_score = calculateScaleScore(
+    answers,
+    stressVariables
+  );
+
+  answers.wellbeing_score = calculateScaleScore(
+    answers,
+    wellbeingVariables
+  );
+
+  return answers;
+}
+
+// --------------------------------------------------
 // Supabase submission
 // --------------------------------------------------
 
@@ -351,7 +411,16 @@ form.addEventListener("submit", async (event) => {
     return;
   }
 
-  const answers = formToObject(form);
+  let answers;
+
+  try {
+    answers = addCalculatedFields(formToObject(form));
+  } catch (error) {
+    console.error("Score calculation failed:", error);
+    formError.textContent =
+      "A scale response is missing or invalid. Please review your answers.";
+    return;
+  }
 
   submissionInProgress = true;
   submitButton.disabled = true;
@@ -363,7 +432,7 @@ form.addEventListener("submit", async (event) => {
       .from("survey_responses")
       .insert({
         consent_given: true,
-        survey_version: "1.0",
+        survey_version: "2.0",
         answers: answers
       });
 
