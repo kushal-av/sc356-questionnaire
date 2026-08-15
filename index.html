@@ -82,7 +82,7 @@
         <article>
           <span aria-hidden="true">◉</span>
           <h2>Anonymous</h2>
-          <p>No name or student ID.</p>
+          <p>No Name or Student ID.</p>
         </article>
 
         <article>
@@ -138,8 +138,8 @@
       aria-labelledby="stepText"
     >
       <div class="progress-meta">
-        <span id="stepText">Step 1 of 4</span>
-        <span id="percentText">25%</span>
+        <span id="stepText">Step 1 of 5</span>
+        <span id="percentText">20%</span>
       </div>
 
       <div
@@ -148,12 +148,12 @@
         aria-label="Questionnaire progress"
         aria-valuemin="0"
         aria-valuemax="100"
-        aria-valuenow="25"
+        aria-valuenow="20"
       >
         <div
           class="progress-fill"
           id="progressFill"
-          style="width: 25%;"
+          style="width: 20%;"
         ></div>
       </div>
 
@@ -170,12 +170,25 @@
           <label for="ageGroup">
             Age group
 
-            <select id="ageGroup" name="ageGroup" required>
+            <select id="ageGroup" name="age_group" required>
               <option value="">Select an option</option>
               <option value="18-20">18–20</option>
-              <option value="21-24">21–24</option>
-              <option value="25-29">25–29</option>
-              <option value="30-or-above">30 or above</option>
+              <option value="21-23">21–23</option>
+              <option value="24-26">24–26</option>
+              <option value="27-or-above">27 or above</option>
+              <option value="prefer-not-to-say">Prefer not to say</option>
+            </select>
+          </label>
+
+          <label for="gender">
+            Gender
+
+            <select id="gender" name="gender" required>
+              <option value="">Select an option</option>
+              <option value="female">Female</option>
+              <option value="male">Male</option>
+              <option value="non-binary">Non-binary</option>
+              <option value="self-describe">Prefer to self-describe</option>
               <option value="prefer-not-to-say">Prefer not to say</option>
             </select>
           </label>
@@ -183,7 +196,7 @@
           <label for="yearOfStudy">
             Year of study
 
-            <select id="yearOfStudy" name="yearOfStudy" required>
+            <select id="yearOfStudy" name="year_of_study" required>
               <option value="">Select an option</option>
               <option value="first-year">First year</option>
               <option value="second-year">Second year</option>
@@ -194,35 +207,46 @@
             </select>
           </label>
 
-          <label for="fieldOfStudy">
-            Broad field of study
+          <label for="faculty">
+            Faculty
 
-            <select id="fieldOfStudy" name="fieldOfStudy" required>
+            <select id="faculty" name="faculty" required>
               <option value="">Select an option</option>
-              <option value="business-and-management">
+              <option value="science-technology-environment">
+                Science, Technology and Environment
+              </option>
+              <option value="business-management">
                 Business and Management
               </option>
-              <option value="science-and-technology">
-                Science and Technology
+              <option value="arts-law-education">
+                Arts, Law and Education
               </option>
-              <option value="arts-and-social-sciences">
-                Arts and Social Sciences
+              <option value="medical-health-sciences">
+                Medical and Health Sciences
               </option>
-              <option value="education">Education</option>
-              <option value="law">Law</option>
               <option value="other">Other</option>
             </select>
           </label>
 
-          <label for="courseCount">
-            How many courses are you taking this semester?
+          <label for="studyMode">
+            Study mode
+
+            <select id="studyMode" name="study_mode" required>
+              <option value="">Select an option</option>
+              <option value="full-time">Full-time</option>
+              <option value="part-time">Part-time</option>
+            </select>
+          </label>
+
+          <label for="weeklyStudyHours">
+            Approximately how many hours do you study independently each week?
 
             <input
-              id="courseCount"
-              name="courseCount"
+              id="weeklyStudyHours"
+              name="weekly_study_hours"
               type="number"
-              min="1"
-              max="8"
+              min="0"
+              max="80"
               inputmode="numeric"
               required
             >
@@ -237,31 +261,58 @@
             Choose the response that best describes your current semester.
           </p>
 
-          <div class="question" data-required-radio="workload">
-            <p>My academic workload feels difficult to manage.</p>
-            <div class="scale"></div>
+          <p class="scale-key" aria-label="Academic stress response scale">
+            <strong>Response scale:</strong>
+            1 = Not at all stressful,
+            2 = Slightly stressful,
+            3 = Moderately stressful,
+            4 = Very stressful,
+            5 = Extremely stressful.
+          </p>
+
+          <div class="question" data-required-radio="stress_workload">
+            <p>How stressful is your overall academic workload?</p>
+            <div class="scale" data-min="1" data-max="5"></div>
           </div>
 
-          <div class="question" data-required-radio="deadlines">
-            <p>I feel pressured by assignment deadlines.</p>
-            <div class="scale"></div>
+          <div class="question" data-required-radio="stress_assignments">
+            <p>How stressful are your assignments?</p>
+            <div class="scale" data-min="1" data-max="5"></div>
           </div>
 
-          <div class="question" data-required-radio="exams">
-            <p>Tests or examinations cause me significant stress.</p>
-            <div class="scale"></div>
+          <div class="question" data-required-radio="stress_tests">
+            <p>How stressful are your tests or examinations?</p>
+            <div class="scale" data-min="1" data-max="5"></div>
+          </div>
+
+          <div class="question" data-required-radio="stress_deadlines">
+            <p>How stressful are assignment and assessment deadlines?</p>
+            <div class="scale" data-min="1" data-max="5"></div>
+          </div>
+
+          <div class="question" data-required-radio="stress_time_management">
+            <p>How stressful is managing your academic time?</p>
+            <div class="scale" data-min="1" data-max="5"></div>
+          </div>
+
+          <div class="question" data-required-radio="stress_financial">
+            <p>How stressful are financial pressures related to your studies?</p>
+            <div class="scale" data-min="1" data-max="5"></div>
           </div>
 
           <label for="sleepHours">
-            Average sleep per night
+            On average, how many hours do you sleep per night?
 
-            <select id="sleepHours" name="sleepHours" required>
-              <option value="">Select an option</option>
-              <option value="less-than-5">Less than 5 hours</option>
-              <option value="5-6">5–6 hours</option>
-              <option value="7-8">7–8 hours</option>
-              <option value="more-than-8">More than 8 hours</option>
-            </select>
+            <input
+              id="sleepHours"
+              name="sleep_hours_per_night"
+              type="number"
+              min="0"
+              max="16"
+              step="0.5"
+              inputmode="decimal"
+              required
+            >
           </label>
         </fieldset>
 
@@ -274,38 +325,83 @@
             open “Need support?” above.
           </div>
 
-          <div class="question" data-required-radio="overwhelmed">
-            <p>
-              During the past two weeks, I felt overwhelmed by my studies.
-            </p>
-            <div class="frequency"></div>
+          <p class="section-copy">
+            For each statement, select how often it applied to you during
+            the past two weeks.
+          </p>
+
+          <p class="scale-key" aria-label="Mental wellbeing response scale">
+            <strong>Response scale:</strong>
+            1 = At no time,
+            2 = Rarely,
+            3 = Sometimes,
+            4 = Often,
+            5 = All of the time.
+          </p>
+
+          <div class="question" data-required-radio="wellbeing_cheerful">
+            <p>During the past two weeks, I felt cheerful and in good spirits.</p>
+            <div class="frequency" data-min="1" data-max="5"></div>
           </div>
 
-          <div class="question" data-required-radio="concentrate">
-            <p>
-              During the past two weeks, I was able to concentrate on my
-              academic work.
-            </p>
-            <div class="frequency"></div>
+          <div class="question" data-required-radio="wellbeing_calm">
+            <p>During the past two weeks, I felt calm and relaxed.</p>
+            <div class="frequency" data-min="1" data-max="5"></div>
           </div>
 
-          <div class="question" data-required-radio="positive">
-            <p>
-              During the past two weeks, I felt positive about my daily life.
-            </p>
-            <div class="frequency"></div>
+          <div class="question" data-required-radio="wellbeing_active">
+            <p>During the past two weeks, I felt active and energetic.</p>
+            <div class="frequency" data-min="1" data-max="5"></div>
           </div>
 
-          <div class="question" data-required-radio="rested">
+          <div class="question" data-required-radio="wellbeing_rested">
             <p>
               During the past two weeks, I woke up feeling rested.
             </p>
-            <div class="frequency"></div>
+            <div class="frequency" data-min="1" data-max="5"></div>
+          </div>
+
+          <div class="question" data-required-radio="wellbeing_interested">
+            <p>
+              During the past two weeks, my daily life contained things that
+              interested me.
+            </p>
+            <div class="frequency" data-min="1" data-max="5"></div>
           </div>
         </fieldset>
 
         <!-- Step 4 -->
         <fieldset class="form-step hidden" data-step="4">
+          <legend>Support and information systems</legend>
+
+          <label for="soughtSupport">
+            Have you sought support for academic stress during this semester?
+
+            <select id="soughtSupport" name="sought_support" required>
+              <option value="">Select an option</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+              <option value="prefer-not-to-say">Prefer not to say</option>
+            </select>
+          </label>
+
+          <label for="preferredIsSupport">
+            Which information-system support option would be most useful to you?
+
+            <select id="preferredIsSupport" name="preferred_is_support" required>
+              <option value="">Select an option</option>
+              <option value="anonymous-dashboard">Anonymous wellbeing dashboard</option>
+              <option value="stress-check-in-app">Mobile stress check-in app</option>
+              <option value="counselling-booking">Online counselling booking</option>
+              <option value="study-planning-reminders">Study-planning reminder system</option>
+              <option value="academic-support-chatbot">Academic support chatbot</option>
+              <option value="none">None of these</option>
+            </select>
+          </label>
+        </fieldset>
+
+        <!-- Step 5 -->
+        <fieldset class="form-step hidden" data-step="5">
           <legend>Review and submit</legend>
 
           <p class="section-copy">
