@@ -197,7 +197,7 @@ const summaryLabels = {
   age_group: "Age group",
   gender: "Gender",
   year_of_study: "Year of study",
-  faculty: "Faculty",
+  faculty: "School",
   study_mode: "Study mode",
   weekly_study_hours: "Weekly study hours",
   sleep_hours_per_night: "Sleep per night",
