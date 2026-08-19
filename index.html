@@ -207,32 +207,49 @@
             </select>
           </label>
 
-          <label for="faculty">
-            School
+          <div
+            class="school-group"
+            data-required-checkbox="faculty"
+            data-max-selections="2"
+            role="group"
+            aria-labelledby="schoolQuestion"
+          >
+            <p id="schoolQuestion">
+              School
+              <span class="field-hint">Select one or two options.</span>
+            </p>
 
-            <select id="faculty" name="faculty" required>
-              <option value="">Select an option</option>
-              <option value="accounting-finance-economics">
-                School of Accounting, Finance and Economics
-              </option>
-              <option value="agriculture-geography-environment-ocean-natural-sciences">
-                School of Agriculture, Geography, Environment, Ocean and Natural Sciences
-              </option>
-              <option value="business-management">
-                School of Business and Management
-              </option>
-              <option value="information-technology-engineering-mathematics-physics">
-                School of Information Technology, Engineering, Mathematics and Physics
-              </option>
-              <option value="law-social-sciences">
-                School of Law and Social Sciences
-              </option>
-              <option value="pacific-arts-communication-education">
-                School of Pacific Arts, Communication and Education
-              </option>
-              <option value="other-academic-unit">Other academic unit</option>
-            </select>
-          </label>
+            <div class="school-options">
+              <label class="school-choice">
+                <input type="checkbox" name="faculty" value="accounting-finance-economics">
+                <span>School of Accounting, Finance and Economics</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="faculty" value="agriculture-geography-environment-ocean-natural-sciences">
+                <span>School of Agriculture, Geography, Environment, Ocean and Natural Sciences</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="faculty" value="business-management">
+                <span>School of Business and Management</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="faculty" value="information-technology-engineering-mathematics-physics">
+                <span>School of Information Technology, Engineering, Mathematics and Physics</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="faculty" value="law-social-sciences">
+                <span>School of Law and Social Sciences</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="faculty" value="pacific-arts-communication-education">
+                <span>School of Pacific Arts, Communication and Education</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="faculty" value="other-academic-unit">
+                <span>Other academic unit</span>
+              </label>
+            </div>
+          </div>
 
           <label for="studyMode">
             Study mode
