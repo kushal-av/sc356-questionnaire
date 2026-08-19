@@ -207,12 +207,14 @@ const summaryLabels = {
   stress_deadlines: "Deadline stress",
   stress_time_management: "Time-management stress",
   stress_financial: "Financial stress",
+  family_responsibility_stress: "Family-responsibility stress",
   wellbeing_cheerful: "Feeling cheerful",
   wellbeing_calm: "Feeling calm",
   wellbeing_active: "Feeling active",
   wellbeing_rested: "Feeling rested",
   wellbeing_interested: "Interest in daily life",
   sought_support: "Sought support",
+  primary_stress_coping: "Primary stress-coping response",
   preferred_is_support: "Preferred IS support"
 };
 
