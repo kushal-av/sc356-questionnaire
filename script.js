@@ -89,6 +89,29 @@ document.querySelectorAll(".frequency").forEach((element) => {
 });
 
 // --------------------------------------------------
+// Limit multi-select checkbox groups
+// --------------------------------------------------
+
+document.querySelectorAll("[data-max-selections]").forEach((group) => {
+  const checkboxes = [...group.querySelectorAll('input[type="checkbox"]')];
+  const maxSelections = Number(group.dataset.maxSelections);
+
+  const updateAvailability = () => {
+    const selectedCount = checkboxes.filter((box) => box.checked).length;
+
+    checkboxes.forEach((box) => {
+      box.disabled = !box.checked && selectedCount >= maxSelections;
+    });
+  };
+
+  checkboxes.forEach((box) => {
+    box.addEventListener("change", updateAvailability);
+  });
+
+  updateAvailability();
+});
+
+// --------------------------------------------------
 // Step navigation
 // --------------------------------------------------
 
@@ -171,11 +194,32 @@ function validateCurrentStep() {
     );
   });
 
-  const valid = normalFieldsValid && radioGroupsValid;
+  const checkboxGroups = [
+    ...currentFieldset.querySelectorAll(
+      "[data-required-checkbox]"
+    )
+  ];
+
+  const checkboxGroupsValid = checkboxGroups.every((group) => {
+    const groupName = group.dataset.requiredCheckbox;
+    const checkedCount = group.querySelectorAll(
+      `input[name="${groupName}"]:checked`
+    ).length;
+    const maxSelections = Number(group.dataset.maxSelections || 1);
+
+    return checkedCount >= 1 && checkedCount <= maxSelections;
+  });
+
+  const valid =
+    normalFieldsValid &&
+    radioGroupsValid &&
+    checkboxGroupsValid;
 
   formError.textContent = valid
     ? ""
-    : "Please answer every question before continuing.";
+    : checkboxGroupsValid
+      ? "Please answer every question before continuing."
+      : "Please select one or two schools before continuing.";
 
   if (!valid) {
     const firstInvalidField =
@@ -183,6 +227,16 @@ function validateCurrentStep() {
 
     if (firstInvalidField) {
       firstInvalidField.focus();
+    } else {
+      const firstInvalidCheckboxGroup = checkboxGroups.find((group) => {
+        const count = group.querySelectorAll("input:checked").length;
+        const max = Number(group.dataset.maxSelections || 1);
+        return count < 1 || count > max;
+      });
+
+      firstInvalidCheckboxGroup
+        ?.querySelector("input")
+        ?.focus();
     }
   }
 
@@ -232,8 +286,11 @@ function renderSummary() {
     labelElement.textContent = label;
 
     const valueElement = document.createElement("strong");
-    valueElement.textContent =
-      getReadableAnswer(key, formData.get(key));
+    const values = formData.getAll(key);
+    valueElement.textContent = getReadableAnswer(
+      key,
+      values.length > 1 ? values : values[0]
+    );
 
     row.appendChild(labelElement);
     row.appendChild(valueElement);
@@ -242,6 +299,12 @@ function renderSummary() {
 }
 
 function getReadableAnswer(name, value) {
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => getReadableAnswer(name, item))
+      .join(", ");
+  }
+
   if (!value) {
     return "Not answered";
   }
@@ -255,6 +318,19 @@ function getReadableAnswer(name, value) {
     selectedField.tagName === "OPTION"
   ) {
     return selectedField.textContent.trim();
+  }
+
+  if (
+    selectedField &&
+    selectedField.type === "checkbox"
+  ) {
+    const choiceText = selectedField
+      .closest("label")
+      ?.querySelector("span")
+      ?.textContent
+      ?.trim();
+
+    return choiceText || String(value);
   }
 
   const select = form.querySelector(`select[name="${name}"]`);
