@@ -405,76 +405,51 @@
 
           <h2 class="timeframe-heading">During the past two weeks</h2>
 
-          <p class="section-copy">
-            For each statement, select how often it applied to you.
-          </p>
-
-          <p class="scale-key" aria-label="Mental wellbeing response scale">
-            <strong>Response scale:</strong>
-            1 = At no time,
-            2 = Rarely,
-            3 = Sometimes,
-            4 = Often,
-            5 = All of the time.
-          </p>
-
-          <div class="question" data-required-radio="wellbeing_cheerful">
-            <p>I felt cheerful and in good spirits.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="wellbeing_calm">
-            <p>I felt calm and relaxed.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="wellbeing_active">
-            <p>I felt active and energetic.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="wellbeing_rested">
-            <p>
-              I woke up feeling rested.
+          <div
+            class="checkbox-group"
+            data-required-checkbox="wellbeing_experiences"
+            data-exclusive-value="none"
+            data-validation-message="Please select at least one response before continuing."
+            role="group"
+            aria-labelledby="wellbeingExperiencesQuestion"
+          >
+            <p id="wellbeingExperiencesQuestion">
+              Which of the following have you experienced?
+              <span class="field-hint">
+                Select all that apply. You may select all six experiences.
+              </span>
             </p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
 
-          <div class="question" data-required-radio="wellbeing_interested">
-            <p>
-              My daily life contained things that interested me.
-            </p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="distress_low_mood">
-            <p>I felt down, sad, or low in mood.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="distress_concentration">
-            <p>I had difficulty concentrating on my studies.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="distress_exhaustion">
-            <p>I felt emotionally exhausted.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="distress_stress_relax">
-            <p>I felt stressed or unable to relax.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="distress_anxiety">
-            <p>I felt nervous, anxious, or on edge.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="distress_worry_control">
-            <p>I found it difficult to control my worrying.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
+            <div class="checkbox-options">
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="low-mood">
+                <span>Felt down, sad, or low in mood</span>
+              </label>
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="difficulty-concentrating">
+                <span>Had difficulty concentrating on your studies</span>
+              </label>
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="emotional-exhaustion">
+                <span>Felt emotionally exhausted</span>
+              </label>
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="stress-unable-to-relax">
+                <span>Felt stressed or unable to relax</span>
+              </label>
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="anxious-or-on-edge">
+                <span>Felt nervous, anxious, or on edge</span>
+              </label>
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="difficulty-controlling-worry">
+                <span>Found it difficult to control your worrying</span>
+              </label>
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="none">
+                <span>None of the above</span>
+              </label>
+            </div>
           </div>
         </fieldset>
 
