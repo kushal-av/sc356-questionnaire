@@ -74,20 +74,6 @@ document.querySelectorAll(".scale").forEach((element) => {
   );
 });
 
-document.querySelectorAll(".frequency").forEach((element) => {
-  buildRadioScale(
-    element,
-    element.parentElement.dataset.requiredRadio,
-    [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5"
-    ]
-  );
-});
-
 // --------------------------------------------------
 // Conditional digital-tool follow-up questions
 // --------------------------------------------------
@@ -137,6 +123,36 @@ document.querySelectorAll("[data-max-selections]").forEach((group) => {
   });
 
   updateAvailability();
+});
+
+// --------------------------------------------------
+// Keep “None of the above” exclusive
+// --------------------------------------------------
+
+document.querySelectorAll("[data-exclusive-value]").forEach((group) => {
+  const checkboxes = [...group.querySelectorAll('input[type="checkbox"]')];
+  const exclusiveValue = group.dataset.exclusiveValue;
+  const exclusiveCheckbox = checkboxes.find(
+    (box) => box.value === exclusiveValue
+  );
+
+  if (!exclusiveCheckbox) {
+    return;
+  }
+
+  checkboxes.forEach((box) => {
+    box.addEventListener("change", () => {
+      if (box === exclusiveCheckbox && box.checked) {
+        checkboxes.forEach((otherBox) => {
+          if (otherBox !== exclusiveCheckbox) {
+            otherBox.checked = false;
+          }
+        });
+      } else if (box.checked) {
+        exclusiveCheckbox.checked = false;
+      }
+    });
+  });
 });
 
 // --------------------------------------------------
@@ -302,17 +318,7 @@ const summaryLabels = {
   stress_commute_access: "Travel and class-access stress",
   stress_study_resources: "Technology and study-resource stress",
   family_responsibility_stress: "Family-responsibility stress",
-  wellbeing_cheerful: "Feeling cheerful",
-  wellbeing_calm: "Feeling calm",
-  wellbeing_active: "Feeling active",
-  wellbeing_rested: "Feeling rested",
-  wellbeing_interested: "Interest in daily life",
-  distress_low_mood: "Low mood",
-  distress_concentration: "Difficulty concentrating",
-  distress_exhaustion: "Emotional exhaustion",
-  distress_stress_relax: "Stress or difficulty relaxing",
-  distress_anxiety: "Anxiety or nervousness",
-  distress_worry_control: "Difficulty controlling worry",
+  wellbeing_experiences: "Stress and wellbeing experiences",
   sought_support: "Sought support",
   digital_tool_use: "Used digital wellbeing support",
   digital_tool_types: "Types of digital support used",
@@ -498,23 +504,6 @@ const stressVariables = [
   "stress_study_resources"
 ];
 
-const wellbeingVariables = [
-  "wellbeing_cheerful",
-  "wellbeing_calm",
-  "wellbeing_active",
-  "wellbeing_rested",
-  "wellbeing_interested"
-];
-
-const distressVariables = [
-  "distress_low_mood",
-  "distress_concentration",
-  "distress_exhaustion",
-  "distress_stress_relax",
-  "distress_anxiety",
-  "distress_worry_control"
-];
-
 function calculateScaleScore(answers, variableNames) {
   const values = variableNames.map((name) =>
     Number(answers[name])
@@ -525,7 +514,7 @@ function calculateScaleScore(answers, variableNames) {
   );
 
   if (!allValuesValid) {
-    throw new Error("A required 1–5 scale response is missing or invalid.");
+    throw new Error("A required 1–5 academic-stress response is missing or invalid.");
   }
 
   return values.reduce((total, value) => total + value, 0);
@@ -537,15 +526,16 @@ function addCalculatedFields(answers) {
     stressVariables
   );
 
-  answers.wellbeing_score = calculateScaleScore(
-    answers,
-    wellbeingVariables
-  );
+  const selectedExperiences = Array.isArray(
+    answers.wellbeing_experiences
+  )
+    ? answers.wellbeing_experiences
+    : [answers.wellbeing_experiences];
 
-  answers.distress_score = calculateScaleScore(
-    answers,
-    distressVariables
-  );
+  answers.wellbeing_experience_count =
+    selectedExperiences.filter(
+      (value) => value && value !== "none"
+    ).length;
 
   return answers;
 }
@@ -578,7 +568,7 @@ form.addEventListener("submit", async (event) => {
   } catch (error) {
     console.error("Score calculation failed:", error);
     formError.textContent =
-      "A scale response is missing or invalid. Please review your answers.";
+      "An academic-stress response is missing or invalid. Please review your answers.";
     return;
   }
 
@@ -592,7 +582,7 @@ form.addEventListener("submit", async (event) => {
       .from("survey_responses")
       .insert({
         consent_given: true,
-        survey_version: "3.0",
+        survey_version: "3.1",
         answers: answers
       });
 
