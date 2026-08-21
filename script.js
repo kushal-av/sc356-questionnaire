@@ -291,7 +291,6 @@ const summaryLabels = {
   study_mode: "Study mode",
   weekly_study_hours: "Weekly study hours",
   sleep_hours_per_night: "Sleep per night",
-  stress_workload: "Workload stress",
   stress_assignments: "Assignment stress",
   stress_tests: "Test and examination stress",
   stress_deadlines: "Deadline stress",
@@ -488,7 +487,6 @@ function formToObject(questionnaireForm) {
 // --------------------------------------------------
 
 const stressVariables = [
-  "stress_workload",
   "stress_assignments",
   "stress_tests",
   "stress_deadlines",
