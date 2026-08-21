@@ -306,6 +306,12 @@ button {
   color: var(--muted);
 }
 
+.timeframe-heading {
+  margin: 24px 0 4px;
+  color: var(--navy);
+  font-size: 1.2rem;
+}
+
 .form-step > label,
 .optional-comments {
   display: flex;
@@ -315,11 +321,13 @@ button {
   font-weight: 750;
 }
 
-.school-group {
+.school-group,
+.checkbox-group {
   margin: 20px 0;
 }
 
-.school-group > p {
+.school-group > p,
+.checkbox-group > p {
   margin: 0 0 10px;
   font-weight: 750;
 }
@@ -332,12 +340,14 @@ button {
   font-weight: 500;
 }
 
-.school-options {
+.school-options,
+.checkbox-options {
   display: grid;
   gap: 8px;
 }
 
-.school-choice {
+.school-choice,
+.checkbox-choice {
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -348,20 +358,31 @@ button {
   cursor: pointer;
 }
 
-.school-choice:has(input:checked) {
+.school-choice:has(input:checked),
+.checkbox-choice:has(input:checked) {
   background: var(--mint);
   border-color: var(--teal);
 }
 
-.school-choice input {
+.school-choice input,
+.checkbox-choice input {
   width: 18px;
   height: 18px;
   margin-top: 2px;
   accent-color: var(--teal);
 }
 
-.school-choice input:disabled + span {
+.school-choice input:disabled + span,
+.checkbox-choice input:disabled + span {
   opacity: 0.55;
+}
+
+.conditional-section {
+  margin: 12px 0 24px;
+  padding: 4px 18px 18px;
+  background: var(--sky);
+  border: 1px solid var(--line);
+  border-radius: 14px;
 }
 
 select,
@@ -391,6 +412,13 @@ textarea:focus {
 .question p {
   margin: 0 0 13px;
   font-weight: 750;
+}
+
+.question .question-scale-hint {
+  margin-top: -7px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  font-weight: 500;
 }
 
 .scale,

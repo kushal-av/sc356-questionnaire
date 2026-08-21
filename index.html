@@ -75,7 +75,7 @@
       <div class="info-grid">
         <article>
           <span aria-hidden="true">⏱</span>
-          <h2>5–7 minutes</h2>
+          <h2>8–10 minutes</h2>
           <p>A short questionnaire.</p>
         </article>
 
@@ -211,6 +211,7 @@
             class="school-group"
             data-required-checkbox="faculty"
             data-max-selections="2"
+            data-validation-message="Please select one or two schools before continuing."
             role="group"
             aria-labelledby="schoolQuestion"
           >
@@ -278,7 +279,7 @@
 
         <!-- Step 2 -->
         <fieldset class="form-step hidden" data-step="2">
-          <legend>Academic experience</legend>
+          <legend>Academic experiences</legend>
 
           <p class="section-copy">
             Choose the response that best describes your current semester.
@@ -292,16 +293,6 @@
             4 = Very stressful,
             5 = Extremely stressful.
           </p>
-
-          <div class="question" data-required-radio="stress_workload">
-            <p>How stressful is your overall academic workload?</p>
-            <div class="scale" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="stress_assignments">
-            <p>How stressful are your assignments?</p>
-            <div class="scale" data-min="1" data-max="5"></div>
-          </div>
 
           <div class="question" data-required-radio="stress_tests">
             <p>How stressful are your tests or examinations?</p>
@@ -320,6 +311,51 @@
 
           <div class="question" data-required-radio="stress_financial">
             <p>How stressful are financial pressures related to your studies?</p>
+            <div class="scale" data-min="1" data-max="5"></div>
+          </div>
+
+          <div class="question" data-required-radio="stress_balance_responsibilities">
+            <p>
+              How stressful is balancing study with work, employment, family,
+              or household responsibilities?
+            </p>
+            <div class="scale" data-min="1" data-max="5"></div>
+          </div>
+
+          <div class="question" data-required-radio="stress_expected_performance">
+            <p>
+              How stressful is maintaining the grades or academic performance
+              you expect?
+            </p>
+            <div class="scale" data-min="1" data-max="5"></div>
+          </div>
+
+          <div class="question" data-required-radio="stress_classes">
+            <p>
+              How stressful is keeping up with lectures, tutorials,
+              laboratories, or other classes?
+            </p>
+            <div class="scale" data-min="1" data-max="5"></div>
+          </div>
+
+          <div class="question" data-required-radio="stress_group_work">
+            <p>How stressful are group assignments or working with other students?</p>
+            <div class="scale" data-min="1" data-max="5"></div>
+          </div>
+
+          <div class="question" data-required-radio="stress_commute_access">
+            <p>
+              How stressful is travelling to and from university or accessing
+              classes?
+            </p>
+            <div class="scale" data-min="1" data-max="5"></div>
+          </div>
+
+          <div class="question" data-required-radio="stress_study_resources">
+            <p>
+              How stressful is accessing the technology, internet, learning
+              materials, or equipment required for your studies?
+            </p>
             <div class="scale" data-min="1" data-max="5"></div>
           </div>
 
@@ -367,48 +403,53 @@
             open “Need support?” above.
           </div>
 
-          <p class="section-copy">
-            For each statement, select how often it applied to you during
-            the past two weeks.
-          </p>
+          <h2 class="timeframe-heading">During the past two weeks</h2>
 
-          <p class="scale-key" aria-label="Mental wellbeing response scale">
-            <strong>Response scale:</strong>
-            1 = At no time,
-            2 = Rarely,
-            3 = Sometimes,
-            4 = Often,
-            5 = All of the time.
-          </p>
-
-          <div class="question" data-required-radio="wellbeing_cheerful">
-            <p>During the past two weeks, I felt cheerful and in good spirits.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="wellbeing_calm">
-            <p>During the past two weeks, I felt calm and relaxed.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="wellbeing_active">
-            <p>During the past two weeks, I felt active and energetic.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="wellbeing_rested">
-            <p>
-              During the past two weeks, I woke up feeling rested.
+          <div
+            class="checkbox-group"
+            data-required-checkbox="wellbeing_experiences"
+            data-exclusive-value="none"
+            data-validation-message="Please select at least one response before continuing."
+            role="group"
+            aria-labelledby="wellbeingExperiencesQuestion"
+          >
+            <p id="wellbeingExperiencesQuestion">
+              Which of the following have you experienced?
+              <span class="field-hint">
+                Select all that apply. You may select all six experiences.
+              </span>
             </p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
 
-          <div class="question" data-required-radio="wellbeing_interested">
-            <p>
-              During the past two weeks, my daily life contained things that
-              interested me.
-            </p>
-            <div class="frequency" data-min="1" data-max="5"></div>
+            <div class="checkbox-options">
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="low-mood">
+                <span>Felt down, sad, or low in mood</span>
+              </label>
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="difficulty-concentrating">
+                <span>Had difficulty concentrating on your studies</span>
+              </label>
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="emotional-exhaustion">
+                <span>Felt emotionally exhausted</span>
+              </label>
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="stress-unable-to-relax">
+                <span>Felt stressed or unable to relax</span>
+              </label>
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="anxious-or-on-edge">
+                <span>Felt nervous, anxious, or on edge</span>
+              </label>
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="difficulty-controlling-worry">
+                <span>Found it difficult to control your worrying</span>
+              </label>
+              <label class="checkbox-choice">
+                <input type="checkbox" name="wellbeing_experiences" value="none">
+                <span>None of the above</span>
+              </label>
+            </div>
           </div>
         </fieldset>
 
@@ -426,6 +467,122 @@
               <option value="prefer-not-to-say">Prefer not to say</option>
             </select>
           </label>
+
+          <label for="digitalToolUse">
+            Have you ever used a mobile app, website, chatbot, or online service
+            to support your mental or emotional wellbeing?
+
+            <select id="digitalToolUse" name="digital_tool_use" required>
+              <option value="">Select an option</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+              <option value="unsure">Unsure</option>
+            </select>
+          </label>
+
+          <div
+            class="conditional-section hidden"
+            id="digitalToolFollowUps"
+            aria-hidden="true"
+          >
+            <div
+              class="checkbox-group"
+              data-required-checkbox="digital_tool_types"
+              data-validation-message="Please select at least one type of digital mental-health tool."
+              role="group"
+              aria-labelledby="digitalToolTypesQuestion"
+            >
+              <p id="digitalToolTypesQuestion">
+                Which types have you used?
+                <span class="field-hint">Select all that apply.</span>
+              </p>
+
+              <div class="checkbox-options">
+                <label class="checkbox-choice"><input type="checkbox" name="digital_tool_types" value="meditation-mindfulness"><span>Meditation or mindfulness</span></label>
+                <label class="checkbox-choice"><input type="checkbox" name="digital_tool_types" value="mood-tracking"><span>Mood tracking</span></label>
+                <label class="checkbox-choice"><input type="checkbox" name="digital_tool_types" value="stress-management"><span>Stress management</span></label>
+                <label class="checkbox-choice"><input type="checkbox" name="digital_tool_types" value="counselling-therapy"><span>Counselling or therapy</span></label>
+                <label class="checkbox-choice"><input type="checkbox" name="digital_tool_types" value="ai-chatbot"><span>AI chatbot</span></label>
+                <label class="checkbox-choice"><input type="checkbox" name="digital_tool_types" value="sleep-support"><span>Sleep support</span></label>
+                <label class="checkbox-choice"><input type="checkbox" name="digital_tool_types" value="journaling"><span>Journaling</span></label>
+                <label class="checkbox-choice"><input type="checkbox" name="digital_tool_types" value="peer-support-community"><span>Peer-support community</span></label>
+                <label class="checkbox-choice"><input type="checkbox" name="digital_tool_types" value="other"><span>Other</span></label>
+              </div>
+            </div>
+
+            <div class="question" data-required-radio="digital_tool_usefulness">
+              <p>How useful have you found digital mental-health tools?</p>
+              <p class="question-scale-hint">
+                1 = Not useful at all; 5 = Extremely useful.
+              </p>
+              <div class="scale" data-min="1" data-max="5"></div>
+            </div>
+          </div>
+
+          <div class="question" data-required-radio="university_app_comfort">
+            <p>
+              How comfortable would you be using a university-supported
+              mental-health app?
+            </p>
+            <p class="question-scale-hint">
+              1 = Not comfortable at all; 5 = Extremely comfortable.
+            </p>
+            <div class="scale" data-min="1" data-max="5"></div>
+          </div>
+
+          <div
+            class="checkbox-group"
+            data-required-checkbox="desired_app_features"
+            data-validation-message="Please select at least one useful app feature."
+            role="group"
+            aria-labelledby="appFeaturesQuestion"
+          >
+            <p id="appFeaturesQuestion">
+              Which features would you find useful?
+              <span class="field-hint">Select all that apply.</span>
+            </p>
+
+            <div class="checkbox-options">
+              <label class="checkbox-choice"><input type="checkbox" name="desired_app_features" value="mood-tracking"><span>Mood tracking</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="desired_app_features" value="stress-monitoring"><span>Stress monitoring</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="desired_app_features" value="anonymous-self-assessment"><span>Anonymous self-assessment</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="desired_app_features" value="guided-relaxation"><span>Guided relaxation</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="desired_app_features" value="mindfulness"><span>Mindfulness</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="desired_app_features" value="sleep-support"><span>Sleep support</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="desired_app_features" value="journaling"><span>Journaling</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="desired_app_features" value="academic-stress-management"><span>Academic stress-management tools</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="desired_app_features" value="counsellor-access"><span>Access to a counsellor</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="desired_app_features" value="crisis-support-contacts"><span>Crisis or support contacts</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="desired_app_features" value="peer-support"><span>Peer support</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="desired_app_features" value="ai-wellbeing-assistance"><span>AI-based wellbeing assistance</span></label>
+            </div>
+          </div>
+
+          <div
+            class="checkbox-group"
+            data-required-checkbox="app_concerns"
+            data-validation-message="Please select at least one concern about using the app."
+            role="group"
+            aria-labelledby="appConcernsQuestion"
+          >
+            <p id="appConcernsQuestion">
+              What would concern you about using such an app?
+              <span class="field-hint">Select all that apply.</span>
+            </p>
+
+            <div class="checkbox-options">
+              <label class="checkbox-choice"><input type="checkbox" name="app_concerns" value="privacy"><span>Privacy</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="app_concerns" value="confidentiality"><span>Confidentiality</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="app_concerns" value="data-security"><span>Data security</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="app_concerns" value="advice-accuracy"><span>Accuracy of advice</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="app_concerns" value="stigma"><span>Stigma</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="app_concerns" value="cost"><span>Cost</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="app_concerns" value="difficulty-using"><span>Difficulty using the app</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="app_concerns" value="cultural-relevance"><span>Cultural relevance</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="app_concerns" value="lack-human-interaction"><span>Lack of human interaction</span></label>
+              <label class="checkbox-choice"><input type="checkbox" name="app_concerns" value="other"><span>Other</span></label>
+            </div>
+          </div>
 
           <label for="primaryStressCoping">
             What do you most often do when you feel stressed about your studies?

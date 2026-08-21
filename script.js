@@ -74,19 +74,33 @@ document.querySelectorAll(".scale").forEach((element) => {
   );
 });
 
-document.querySelectorAll(".frequency").forEach((element) => {
-  buildRadioScale(
-    element,
-    element.parentElement.dataset.requiredRadio,
-    [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5"
-    ]
-  );
-});
+// --------------------------------------------------
+// Conditional digital-tool follow-up questions
+// --------------------------------------------------
+
+const digitalToolUse = document.querySelector("#digitalToolUse");
+const digitalToolFollowUps = document.querySelector("#digitalToolFollowUps");
+
+function updateDigitalToolFollowUps() {
+  const shouldShow = digitalToolUse.value === "yes";
+  const fields = [
+    ...digitalToolFollowUps.querySelectorAll("input, select, textarea")
+  ];
+
+  digitalToolFollowUps.classList.toggle("hidden", !shouldShow);
+  digitalToolFollowUps.setAttribute("aria-hidden", String(!shouldShow));
+
+  fields.forEach((field) => {
+    field.disabled = !shouldShow;
+
+    if (!shouldShow && (field.type === "checkbox" || field.type === "radio")) {
+      field.checked = false;
+    }
+  });
+}
+
+digitalToolUse.addEventListener("change", updateDigitalToolFollowUps);
+updateDigitalToolFollowUps();
 
 // --------------------------------------------------
 // Limit multi-select checkbox groups
@@ -109,6 +123,36 @@ document.querySelectorAll("[data-max-selections]").forEach((group) => {
   });
 
   updateAvailability();
+});
+
+// --------------------------------------------------
+// Keep “None of the above” exclusive
+// --------------------------------------------------
+
+document.querySelectorAll("[data-exclusive-value]").forEach((group) => {
+  const checkboxes = [...group.querySelectorAll('input[type="checkbox"]')];
+  const exclusiveValue = group.dataset.exclusiveValue;
+  const exclusiveCheckbox = checkboxes.find(
+    (box) => box.value === exclusiveValue
+  );
+
+  if (!exclusiveCheckbox) {
+    return;
+  }
+
+  checkboxes.forEach((box) => {
+    box.addEventListener("change", () => {
+      if (box === exclusiveCheckbox && box.checked) {
+        checkboxes.forEach((otherBox) => {
+          if (otherBox !== exclusiveCheckbox) {
+            otherBox.checked = false;
+          }
+        });
+      } else if (box.checked) {
+        exclusiveCheckbox.checked = false;
+      }
+    });
+  });
 });
 
 // --------------------------------------------------
@@ -182,7 +226,7 @@ function validateCurrentStep() {
     ...currentFieldset.querySelectorAll(
       "[data-required-radio]"
     )
-  ];
+  ].filter((group) => !group.closest(".hidden"));
 
   const radioGroupsValid = radioGroups.every((group) => {
     const groupName = group.dataset.requiredRadio;
@@ -198,16 +242,19 @@ function validateCurrentStep() {
     ...currentFieldset.querySelectorAll(
       "[data-required-checkbox]"
     )
-  ];
+  ].filter((group) => !group.closest(".hidden"));
 
   const checkboxGroupsValid = checkboxGroups.every((group) => {
     const groupName = group.dataset.requiredCheckbox;
     const checkedCount = group.querySelectorAll(
       `input[name="${groupName}"]:checked`
     ).length;
-    const maxSelections = Number(group.dataset.maxSelections || 1);
+    const minSelections = Number(group.dataset.minSelections || 1);
+    const maxSelections = group.dataset.maxSelections
+      ? Number(group.dataset.maxSelections)
+      : Number.POSITIVE_INFINITY;
 
-    return checkedCount >= 1 && checkedCount <= maxSelections;
+    return checkedCount >= minSelections && checkedCount <= maxSelections;
   });
 
   const valid =
@@ -215,11 +262,22 @@ function validateCurrentStep() {
     radioGroupsValid &&
     checkboxGroupsValid;
 
+  const firstInvalidCheckboxGroup = checkboxGroups.find((group) => {
+    const count = group.querySelectorAll("input:checked").length;
+    const min = Number(group.dataset.minSelections || 1);
+    const max = group.dataset.maxSelections
+      ? Number(group.dataset.maxSelections)
+      : Number.POSITIVE_INFINITY;
+
+    return count < min || count > max;
+  });
+
   formError.textContent = valid
     ? ""
-    : checkboxGroupsValid
-      ? "Please answer every question before continuing."
-      : "Please select one or two schools before continuing.";
+    : normalFieldsValid && radioGroupsValid && firstInvalidCheckboxGroup
+      ? firstInvalidCheckboxGroup.dataset.validationMessage ||
+        "Please select one or two schools before continuing."
+      : "Please answer every question before continuing.";
 
   if (!valid) {
     const firstInvalidField =
@@ -228,12 +286,6 @@ function validateCurrentStep() {
     if (firstInvalidField) {
       firstInvalidField.focus();
     } else {
-      const firstInvalidCheckboxGroup = checkboxGroups.find((group) => {
-        const count = group.querySelectorAll("input:checked").length;
-        const max = Number(group.dataset.maxSelections || 1);
-        return count < 1 || count > max;
-      });
-
       firstInvalidCheckboxGroup
         ?.querySelector("input")
         ?.focus();
@@ -255,22 +307,33 @@ const summaryLabels = {
   study_mode: "Study mode",
   weekly_study_hours: "Weekly study hours",
   sleep_hours_per_night: "Sleep per night",
-  stress_workload: "Workload stress",
-  stress_assignments: "Assignment stress",
   stress_tests: "Test and examination stress",
   stress_deadlines: "Deadline stress",
   stress_time_management: "Time-management stress",
   stress_financial: "Financial stress",
+  stress_balance_responsibilities: "Study and responsibility balance stress",
+  stress_expected_performance: "Expected academic performance stress",
+  stress_classes: "Keeping up with classes stress",
+  stress_group_work: "Group-work stress",
+  stress_commute_access: "Travel and class-access stress",
+  stress_study_resources: "Technology and study-resource stress",
   family_responsibility_stress: "Family-responsibility stress",
-  wellbeing_cheerful: "Feeling cheerful",
-  wellbeing_calm: "Feeling calm",
-  wellbeing_active: "Feeling active",
-  wellbeing_rested: "Feeling rested",
-  wellbeing_interested: "Interest in daily life",
+  wellbeing_experiences: "Stress and wellbeing experiences",
   sought_support: "Sought support",
+  digital_tool_use: "Used digital wellbeing support",
+  digital_tool_types: "Types of digital support used",
+  digital_tool_usefulness: "Digital-tool usefulness",
+  university_app_comfort: "Comfort with a university-supported app",
+  desired_app_features: "Useful app features",
+  app_concerns: "App concerns",
   primary_stress_coping: "Primary stress-coping response",
   preferred_is_support: "Preferred IS support"
 };
+
+const conditionalDigitalToolSummaryKeys = new Set([
+  "digital_tool_types",
+  "digital_tool_usefulness"
+]);
 
 function renderSummary() {
   const formData = new FormData(form);
@@ -279,6 +342,13 @@ function renderSummary() {
   summary.replaceChildren();
 
   Object.entries(summaryLabels).forEach(([key, label]) => {
+    if (
+      conditionalDigitalToolSummaryKeys.has(key) &&
+      formData.get("digital_tool_use") !== "yes"
+    ) {
+      return;
+    }
+
     const row = document.createElement("div");
     row.className = "summary-row";
 
@@ -422,20 +492,16 @@ function formToObject(questionnaireForm) {
 // --------------------------------------------------
 
 const stressVariables = [
-  "stress_workload",
-  "stress_assignments",
   "stress_tests",
   "stress_deadlines",
   "stress_time_management",
-  "stress_financial"
-];
-
-const wellbeingVariables = [
-  "wellbeing_cheerful",
-  "wellbeing_calm",
-  "wellbeing_active",
-  "wellbeing_rested",
-  "wellbeing_interested"
+  "stress_financial",
+  "stress_balance_responsibilities",
+  "stress_expected_performance",
+  "stress_classes",
+  "stress_group_work",
+  "stress_commute_access",
+  "stress_study_resources"
 ];
 
 function calculateScaleScore(answers, variableNames) {
@@ -448,7 +514,7 @@ function calculateScaleScore(answers, variableNames) {
   );
 
   if (!allValuesValid) {
-    throw new Error("A required 1–5 scale response is missing or invalid.");
+    throw new Error("A required 1–5 academic-stress response is missing or invalid.");
   }
 
   return values.reduce((total, value) => total + value, 0);
@@ -460,10 +526,16 @@ function addCalculatedFields(answers) {
     stressVariables
   );
 
-  answers.wellbeing_score = calculateScaleScore(
-    answers,
-    wellbeingVariables
-  );
+  const selectedExperiences = Array.isArray(
+    answers.wellbeing_experiences
+  )
+    ? answers.wellbeing_experiences
+    : [answers.wellbeing_experiences];
+
+  answers.wellbeing_experience_count =
+    selectedExperiences.filter(
+      (value) => value && value !== "none"
+    ).length;
 
   return answers;
 }
@@ -496,7 +568,7 @@ form.addEventListener("submit", async (event) => {
   } catch (error) {
     console.error("Score calculation failed:", error);
     formError.textContent =
-      "A scale response is missing or invalid. Please review your answers.";
+      "An academic-stress response is missing or invalid. Please review your answers.";
     return;
   }
 
@@ -510,7 +582,7 @@ form.addEventListener("submit", async (event) => {
       .from("survey_responses")
       .insert({
         consent_given: true,
-        survey_version: "2.0",
+        survey_version: "3.1",
         answers: answers
       });
 
@@ -520,6 +592,7 @@ form.addEventListener("submit", async (event) => {
 
     form.reset();
     consentCheckbox.checked = false;
+    updateDigitalToolFollowUps();
 
     surveySection.classList.add("hidden");
     thankYouSection.classList.remove("hidden");
