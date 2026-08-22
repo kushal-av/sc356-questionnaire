@@ -319,6 +319,8 @@ const summaryLabels = {
   wellbeing_cheerful: "Feeling cheerful",
   wellbeing_rested: "Feeling rested",
   wellbeing_interested: "Interest in daily life",
+  wellbeing_low_mood: "Low mood",
+  wellbeing_unable_to_relax: "Stress or difficulty relaxing",
   digital_wellbeing_use: "Used digital wellbeing support",
   digital_tool_types: "Types of digital mental-health tools used",
   digital_tool_usefulness: "Usefulness of digital mental-health tools",
@@ -563,7 +565,7 @@ form.addEventListener("submit", async (event) => {
       .from("survey_responses")
       .insert({
         consent_given: true,
-        survey_version: "2.3",
+        survey_version: "2.4",
         answers: answers
       });
 
