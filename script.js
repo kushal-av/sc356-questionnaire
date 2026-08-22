@@ -43,6 +43,20 @@ const negativeSymptomCheckboxes = [
   )
 ];
 
+const digitalWellbeingUse =
+  document.querySelector("#digitalWellbeingUse");
+const digitalToolTypes =
+  document.querySelector("#digitalToolTypes");
+const digitalToolTypeCheckboxes = [
+  ...document.querySelectorAll(
+    'input[name="digital_tool_types"]'
+  )
+];
+const digitalToolUsefulnessGroup =
+  document.querySelector("#digitalToolUsefulnessGroup");
+const digitalToolUsefulness =
+  document.querySelector("#digitalToolUsefulness");
+
 let currentStep = 1;
 let submissionInProgress = false;
 
@@ -151,6 +165,46 @@ negativeSymptomsExperienced.addEventListener(
 );
 
 updateNegativeSymptomsVisibility();
+
+// --------------------------------------------------
+// Conditional digital mental-health follow-up
+// --------------------------------------------------
+
+function updateDigitalToolVisibility() {
+  const showFollowup = digitalWellbeingUse.value === "yes";
+
+  digitalToolTypes.classList.toggle("hidden", !showFollowup);
+  digitalToolUsefulnessGroup.classList.toggle(
+    "hidden",
+    !showFollowup
+  );
+
+  digitalWellbeingUse.setAttribute(
+    "aria-expanded",
+    String(showFollowup)
+  );
+
+  digitalToolTypeCheckboxes.forEach((checkbox) => {
+    checkbox.disabled = !showFollowup;
+
+    if (!showFollowup) {
+      checkbox.checked = false;
+    }
+  });
+
+  digitalToolUsefulness.disabled = !showFollowup;
+
+  if (!showFollowup) {
+    digitalToolUsefulness.value = "";
+  }
+}
+
+digitalWellbeingUse.addEventListener(
+  "change",
+  updateDigitalToolVisibility
+);
+
+updateDigitalToolVisibility();
 
 // --------------------------------------------------
 // Step navigation
@@ -308,6 +362,9 @@ const summaryLabels = {
   wellbeing_interested: "Interest in daily life",
   negative_symptoms_experienced: "Negative feelings experienced",
   negative_wellbeing_symptoms: "Negative feelings",
+  digital_wellbeing_use: "Used digital wellbeing support",
+  digital_tool_types: "Types of digital mental-health tools used",
+  digital_tool_usefulness: "Usefulness of digital mental-health tools",
   sought_support: "Sought support",
   primary_stress_coping: "Primary stress-coping response",
   preferred_is_support: "Preferred IS support"
@@ -549,7 +606,7 @@ form.addEventListener("submit", async (event) => {
       .from("survey_responses")
       .insert({
         consent_given: true,
-        survey_version: "2.1",
+        survey_version: "2.2",
         answers: answers
       });
 
@@ -560,6 +617,7 @@ form.addEventListener("submit", async (event) => {
     form.reset();
     consentCheckbox.checked = false;
     updateNegativeSymptomsVisibility();
+    updateDigitalToolVisibility();
 
     surveySection.classList.add("hidden");
     thankYouSection.classList.remove("hidden");
