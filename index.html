@@ -453,6 +453,102 @@
         <fieldset class="form-step hidden" data-step="4">
           <legend>Support and information systems</legend>
 
+          <label for="digitalWellbeingUse">
+            Have you ever used a mobile app, website, chatbot, or online service
+            to support your mental or emotional wellbeing?
+
+            <select
+              id="digitalWellbeingUse"
+              name="digital_wellbeing_use"
+              aria-controls="digitalToolTypes digitalToolUsefulnessGroup"
+              aria-expanded="false"
+              required
+            >
+              <option value="">Select an option</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+              <option value="unsure">Unsure</option>
+            </select>
+          </label>
+
+          <div
+            class="school-group hidden"
+            id="digitalToolTypes"
+            data-required-checkbox="digital_tool_types"
+            data-max-selections="9"
+            role="group"
+            aria-labelledby="digitalToolTypesQuestion"
+          >
+            <p id="digitalToolTypesQuestion">
+              Which types have you used?
+              <span class="field-hint">Select all that apply.</span>
+            </p>
+
+            <div class="school-options">
+              <label class="school-choice">
+                <input type="checkbox" name="digital_tool_types" value="meditation-mindfulness">
+                <span>Meditation/mindfulness</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="digital_tool_types" value="mood-tracking">
+                <span>Mood tracking</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="digital_tool_types" value="stress-management">
+                <span>Stress management</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="digital_tool_types" value="counselling-therapy">
+                <span>Counselling/therapy</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="digital_tool_types" value="ai-chatbot">
+                <span>AI chatbot</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="digital_tool_types" value="sleep-support">
+                <span>Sleep support</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="digital_tool_types" value="journaling">
+                <span>Journaling</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="digital_tool_types" value="peer-support-community">
+                <span>Peer-support community</span>
+              </label>
+              <label class="school-choice">
+                <input type="checkbox" name="digital_tool_types" value="other">
+                <span>Other</span>
+              </label>
+            </div>
+          </div>
+
+          <label
+            class="hidden"
+            id="digitalToolUsefulnessGroup"
+            for="digitalToolUsefulness"
+          >
+            How useful have you found digital mental-health tools?
+            <span class="field-hint">
+              1 = Not useful at all; 5 = Extremely useful.
+            </span>
+
+            <select
+              id="digitalToolUsefulness"
+              name="digital_tool_usefulness"
+              required
+              disabled
+            >
+              <option value="">Select a rating</option>
+              <option value="1">1 — Not useful at all</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5 — Extremely useful</option>
+            </select>
+          </label>
+
           <label for="soughtSupport">
             Have you sought support for academic stress during this semester?
 
