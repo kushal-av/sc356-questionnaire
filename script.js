@@ -33,6 +33,16 @@ const nextButton = document.querySelector("#nextButton");
 const backButton = document.querySelector("#backButton");
 const submitButton = document.querySelector("#submitButton");
 
+const negativeSymptomsExperienced =
+  document.querySelector("#negativeSymptomsExperienced");
+const negativeSymptomsOptions =
+  document.querySelector("#negativeSymptomsOptions");
+const negativeSymptomCheckboxes = [
+  ...document.querySelectorAll(
+    'input[name="negative_wellbeing_symptoms"]'
+  )
+];
+
 let currentStep = 1;
 let submissionInProgress = false;
 
@@ -110,6 +120,37 @@ document.querySelectorAll("[data-max-selections]").forEach((group) => {
 
   updateAvailability();
 });
+
+// --------------------------------------------------
+// Conditional negative-feelings options
+// --------------------------------------------------
+
+function updateNegativeSymptomsVisibility() {
+  const showOptions = negativeSymptomsExperienced.value === "yes";
+
+  negativeSymptomsOptions.classList.toggle(
+    "hidden",
+    !showOptions
+  );
+
+  negativeSymptomsExperienced.setAttribute(
+    "aria-expanded",
+    String(showOptions)
+  );
+
+  if (!showOptions) {
+    negativeSymptomCheckboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+  }
+}
+
+negativeSymptomsExperienced.addEventListener(
+  "change",
+  updateNegativeSymptomsVisibility
+);
+
+updateNegativeSymptomsVisibility();
 
 // --------------------------------------------------
 // Step navigation
@@ -198,7 +239,7 @@ function validateCurrentStep() {
     ...currentFieldset.querySelectorAll(
       "[data-required-checkbox]"
     )
-  ];
+  ].filter((group) => !group.classList.contains("hidden"));
 
   const checkboxGroupsValid = checkboxGroups.every((group) => {
     const groupName = group.dataset.requiredCheckbox;
@@ -263,10 +304,10 @@ const summaryLabels = {
   stress_financial: "Financial stress",
   family_responsibility_stress: "Family-responsibility stress",
   wellbeing_cheerful: "Feeling cheerful",
-  wellbeing_calm: "Feeling calm",
-  wellbeing_active: "Feeling active",
   wellbeing_rested: "Feeling rested",
   wellbeing_interested: "Interest in daily life",
+  negative_symptoms_experienced: "Negative feelings experienced",
+  negative_wellbeing_symptoms: "Negative feelings",
   sought_support: "Sought support",
   primary_stress_coping: "Primary stress-coping response",
   preferred_is_support: "Preferred IS support"
@@ -432,8 +473,6 @@ const stressVariables = [
 
 const wellbeingVariables = [
   "wellbeing_cheerful",
-  "wellbeing_calm",
-  "wellbeing_active",
   "wellbeing_rested",
   "wellbeing_interested"
 ];
@@ -510,7 +549,7 @@ form.addEventListener("submit", async (event) => {
       .from("survey_responses")
       .insert({
         consent_given: true,
-        survey_version: "2.0",
+        survey_version: "2.1",
         answers: answers
       });
 
@@ -520,6 +559,7 @@ form.addEventListener("submit", async (event) => {
 
     form.reset();
     consentCheckbox.checked = false;
+    updateNegativeSymptomsVisibility();
 
     surveySection.classList.add("hidden");
     thankYouSection.classList.remove("hidden");
