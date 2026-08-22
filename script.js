@@ -33,16 +33,6 @@ const nextButton = document.querySelector("#nextButton");
 const backButton = document.querySelector("#backButton");
 const submitButton = document.querySelector("#submitButton");
 
-const negativeSymptomsExperienced =
-  document.querySelector("#negativeSymptomsExperienced");
-const negativeSymptomsOptions =
-  document.querySelector("#negativeSymptomsOptions");
-const negativeSymptomCheckboxes = [
-  ...document.querySelectorAll(
-    'input[name="negative_wellbeing_symptoms"]'
-  )
-];
-
 const digitalWellbeingUse =
   document.querySelector("#digitalWellbeingUse");
 const digitalToolTypes =
@@ -134,37 +124,6 @@ document.querySelectorAll("[data-max-selections]").forEach((group) => {
 
   updateAvailability();
 });
-
-// --------------------------------------------------
-// Conditional negative-feelings options
-// --------------------------------------------------
-
-function updateNegativeSymptomsVisibility() {
-  const showOptions = negativeSymptomsExperienced.value === "yes";
-
-  negativeSymptomsOptions.classList.toggle(
-    "hidden",
-    !showOptions
-  );
-
-  negativeSymptomsExperienced.setAttribute(
-    "aria-expanded",
-    String(showOptions)
-  );
-
-  if (!showOptions) {
-    negativeSymptomCheckboxes.forEach((checkbox) => {
-      checkbox.checked = false;
-    });
-  }
-}
-
-negativeSymptomsExperienced.addEventListener(
-  "change",
-  updateNegativeSymptomsVisibility
-);
-
-updateNegativeSymptomsVisibility();
 
 // --------------------------------------------------
 // Conditional digital mental-health follow-up
@@ -360,8 +319,6 @@ const summaryLabels = {
   wellbeing_cheerful: "Feeling cheerful",
   wellbeing_rested: "Feeling rested",
   wellbeing_interested: "Interest in daily life",
-  negative_symptoms_experienced: "Negative feelings experienced",
-  negative_wellbeing_symptoms: "Negative feelings",
   digital_wellbeing_use: "Used digital wellbeing support",
   digital_tool_types: "Types of digital mental-health tools used",
   digital_tool_usefulness: "Usefulness of digital mental-health tools",
@@ -606,7 +563,7 @@ form.addEventListener("submit", async (event) => {
       .from("survey_responses")
       .insert({
         consent_given: true,
-        survey_version: "2.2",
+        survey_version: "2.3",
         answers: answers
       });
 
@@ -616,7 +573,6 @@ form.addEventListener("submit", async (event) => {
 
     form.reset();
     consentCheckbox.checked = false;
-    updateNegativeSymptomsVisibility();
     updateDigitalToolVisibility();
 
     surveySection.classList.add("hidden");
