@@ -386,29 +386,66 @@
             <div class="frequency" data-min="1" data-max="5"></div>
           </div>
 
-          <div class="question" data-required-radio="wellbeing_calm">
-            <p>I felt calm and relaxed.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
-          <div class="question" data-required-radio="wellbeing_active">
-            <p>I felt active and energetic.</p>
-            <div class="frequency" data-min="1" data-max="5"></div>
-          </div>
-
           <div class="question" data-required-radio="wellbeing_rested">
-            <p>
-              I woke up feeling rested.
-            </p>
+            <p>I woke up feeling rested.</p>
             <div class="frequency" data-min="1" data-max="5"></div>
           </div>
 
           <div class="question" data-required-radio="wellbeing_interested">
             <p>
-              My daily life contained things that
-              interested me.
+              My daily life contained things that interested me.
             </p>
             <div class="frequency" data-min="1" data-max="5"></div>
+          </div>
+
+          <label for="negativeSymptomsExperienced">
+            Did any of the following apply to you?
+
+            <select
+              id="negativeSymptomsExperienced"
+              name="negative_symptoms_experienced"
+              aria-controls="negativeSymptomsOptions"
+              aria-expanded="false"
+              required
+            >
+              <option value="">Select an option</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </label>
+
+          <div
+            class="school-group hidden"
+            id="negativeSymptomsOptions"
+            data-required-checkbox="negative_wellbeing_symptoms"
+            data-max-selections="2"
+            role="group"
+            aria-labelledby="negativeSymptomsQuestion"
+          >
+            <p id="negativeSymptomsQuestion">
+              Which feelings did you experience?
+              <span class="field-hint">Select one or both options.</span>
+            </p>
+
+            <div class="school-options">
+              <label class="school-choice">
+                <input
+                  type="checkbox"
+                  name="negative_wellbeing_symptoms"
+                  value="low-mood"
+                >
+                <span>Felt down, sad, or low in mood</span>
+              </label>
+
+              <label class="school-choice">
+                <input
+                  type="checkbox"
+                  name="negative_wellbeing_symptoms"
+                  value="unable-to-relax"
+                >
+                <span>Felt stressed or unable to relax</span>
+              </label>
+            </div>
           </div>
         </fieldset>
 
