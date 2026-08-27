@@ -269,11 +269,16 @@ function validateCurrentStep() {
     radioGroupsValid &&
     checkboxGroupsValid;
 
+  const checkboxErrorMessage =
+    currentStep === 1
+      ? "Please select one or two schools before continuing."
+      : "Please select at least one type of digital mental-health tool before continuing.";
+
   formError.textContent = valid
     ? ""
     : checkboxGroupsValid
       ? "Please answer every question before continuing."
-      : "Please select one or two schools before continuing.";
+      : checkboxErrorMessage;
 
   if (!valid) {
     const firstInvalidField =
