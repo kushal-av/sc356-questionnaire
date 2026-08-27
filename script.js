@@ -480,7 +480,7 @@ function formToObject(questionnaireForm) {
 }
 
 // --------------------------------------------------
-// Calculate analysis-ready stress and wellbeing scores
+// Calculate analysis-ready academic stress score
 // --------------------------------------------------
 
 const stressVariables = [
@@ -490,12 +490,6 @@ const stressVariables = [
   "stress_deadlines",
   "stress_time_management",
   "stress_financial"
-];
-
-const wellbeingVariables = [
-  "wellbeing_cheerful",
-  "wellbeing_rested",
-  "wellbeing_interested"
 ];
 
 function calculateScaleScore(answers, variableNames) {
@@ -518,11 +512,6 @@ function addCalculatedFields(answers) {
   answers.stress_score = calculateScaleScore(
     answers,
     stressVariables
-  );
-
-  answers.wellbeing_score = calculateScaleScore(
-    answers,
-    wellbeingVariables
   );
 
   return answers;
@@ -570,7 +559,7 @@ form.addEventListener("submit", async (event) => {
       .from("survey_responses")
       .insert({
         consent_given: true,
-        survey_version: "2.4",
+        survey_version: "2.5",
         answers: answers
       });
 
